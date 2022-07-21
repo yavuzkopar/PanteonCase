@@ -13,9 +13,12 @@ namespace Yavuz.Build
         Vector3 spawnPoint;
         [SerializeField] Transform spawnFlag;
         [SerializeField] GameObject unitToSpawn;
+        
         private void Start()
         {
             spawnPoint = spawnFlag.position;
+            
+            
         }
 
         private void Update()
@@ -30,8 +33,9 @@ namespace Yavuz.Build
                     if (iswalkable)
                     {
                         spawnFlag.position = GridSystem.Instance.NodeFromWorldPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition)).worldPosition;
-
+                      
                     }
+                    
                 }
 
             }

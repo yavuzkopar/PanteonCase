@@ -8,10 +8,16 @@ namespace Yavuz.Build
         [SerializeField] GameObject objectToProduce;
         BuildingInfo buildingInfo;
         Vector3 offset;
+        SpriteRenderer visualFeedbackSprite;
+        Color goodColor, badColor;
         void Start()
         {
             buildingInfo = objectToProduce.GetComponent<Building>().buildingInfo;
             offset = objectToProduce.GetComponent<Building>().offset;
+            visualFeedbackSprite = transform.GetChild(0).GetComponent<SpriteRenderer>();
+            goodColor = new Color(0, 1, 0, 0.3f);
+            badColor = new Color(1, 0, 0, 0.3f);
+            visualFeedbackSprite.color = goodColor;
             if (buildingInfo.height % 2 == 0)
                 offset += Vector3.up * GridSystem.Instance.nodeRadius;
             if (buildingInfo.width % 2 == 0)
@@ -25,6 +31,7 @@ namespace Yavuz.Build
             bool canMake = !Physics.CheckBox(transform.position, new Vector3(buildingInfo.width, buildingInfo.height) * GridSystem.Instance.nodeRadius, Quaternion.identity, GridSystem.Instance.unwalkableMask);
             if (canMake && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
             {
+                visualFeedbackSprite.color = goodColor;
                 if (Input.GetMouseButtonDown(0) && BuildingManager.Instance.canProduce)
                 {
                     Instantiate(objectToProduce, transform.position, Quaternion.identity);
@@ -37,6 +44,8 @@ namespace Yavuz.Build
 
 
             }
+            else
+                visualFeedbackSprite.color = badColor;
         }
     }
 
